@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login api using ajax and php</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+  </head>
+  <body>
+    <div class="container border my-5 p-5" style="width: 50%">
+      <h1 class="text-center mb-3 p-3 fs-3 fst-italic">
+        Login form Using Ajax and Php api
+      </h1>
+      <form action="">
+        <div class="mb-3">
+          <label class="form-label">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="please enter email"
+            id="email"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="please enter password"
+            id="password"
+          />
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-primary" name="login" id="login">Login</button>
+        </div>
+      </form>
+      <p>
+        For Registration please
+        <a href="register_front_end.html">click Here</a>
+      </p>
+    </div>
+    <script src="js/bootstrap.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#login").on("click", function (e) {
+          e.preventDefault();
+
+          let email = $("#email").val();
+          let password = $("#password").val();
+
+          let mydata = {
+            email: email,
+            password: password,
+          };
+
+          $.ajax({
+            url: "http://localhost/login_api/login.php",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(mydata),
+            dataType: "json",
+            success: function (data) {
+              if (data.success) {
+                alert("Welcome " + data.username);
+                window.location.href = "welcome.php";
+              } else {
+                alert(data.error);
+              }
+            },
+            error: function (xhr, status, error) {
+              console.log("AJAX Error:", status, error);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
